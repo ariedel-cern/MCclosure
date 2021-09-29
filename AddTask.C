@@ -98,7 +98,7 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   Double_t mulq_le = 0.;
   Double_t mulq_ue = 3000.;
   Int_t mulq_bins = (mulq_ue - mulq_le) / 3;
-  Double_t mulq_min = 2.;
+  Double_t mulq_min = 10.;
   Double_t mulq_max = mulq_ue;
   // multiplicity, estimated by sum of all paritcle weights
   Double_t mulw_le = 0.;
@@ -230,9 +230,9 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   task->SetTrackCuts(kDCAZ, dcaz_min, dcaz_max);
   task->SetTrackCuts(kDCAXY, dcaxy_min, dcaxy_max);
   // setters for event cuts
-  task->SetEventCuts(kMUL, mul_min, mul_max);
+  // task->SetEventCuts(kMUL, mul_min, mul_max);
   task->SetEventCuts(kMULQ, mulq_min, mulq_max);
-  task->SetEventCuts(kMULW, mulw_min, mulw_max);
+  // task->SetEventCuts(kMULW, mulw_min, mulw_max);
   task->SetEventCuts(kMULREF, mulref_min, mulref_max);
   task->SetEventCuts(kNCONTRIB, ncontrib_min, ncontrib_max);
   task->SetEventCuts(kCEN, centerMin, centerMax);
@@ -322,6 +322,7 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
                        "WithoutWeights", cen_min, cen_max)));
 
   task1->SetMCClosure(kTRUE);
+  task1->SetCustomSeed(20212021);
   task1->SetAcceptanceHistogram(kPT, AcceptancePt);
   task1->SetAcceptanceHistogram(kPHI, AcceptancePhi);
   task1->SetAcceptanceHistogram(kETA, AcceptanceEta);
