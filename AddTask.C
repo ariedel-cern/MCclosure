@@ -265,17 +265,17 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   // confiure MC closure
 
   // acceptance/weight histograms for phi
-  Double_t phi2 = TMath::TwoPi() / 3.5;
+  Double_t phi2 = TMath::TwoPi() / 6;
   Double_t phi3 = TMath::TwoPi() / 3;
-  Double_t phiAccetance = 0.1;
+  Double_t phiAcceptance = 0.4;
   TH1D *AcceptancePhi =
       new TH1D("acceptance_phi", "acceptance_phi", phi_bins, phi_min, phi_max);
   TH1D *WeightPhi = dynamic_cast<TH1D *>(AcceptancePhi->Clone("weight_phi"));
   for (int i = 0; i < AcceptancePhi->GetNbinsX(); i++) {
     if (phi2 < AcceptancePhi->GetBinCenter(i + 1) &&
         phi3 > AcceptancePhi->GetBinCenter(i + 1)) {
-      AcceptancePhi->SetBinContent(i + 1, phiAccetance);
-      WeightPhi->SetBinContent(i + 1, 1. / phiAccetance);
+      AcceptancePhi->SetBinContent(i + 1, phiAcceptance);
+      WeightPhi->SetBinContent(i + 1, 1. / phiAcceptance);
     } else {
       AcceptancePhi->SetBinContent(i + 1, 1.);
       WeightPhi->SetBinContent(i + 1, 1.);
@@ -283,16 +283,16 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   }
   // acceptance/weight histograms for pt
   Double_t pt2 = 0.4;
-  Double_t pt3 = 0.6;
-  Double_t ptAccetance = 0.1;
+  Double_t pt3 = 1.2;
+  Double_t ptAcceptance = 0.5;
   TH1D *AcceptancePt =
       new TH1D("acceptance_pt", "acceptance_pt", pt_bins, pt_min, pt_max);
   TH1D *WeightPt = dynamic_cast<TH1D *>(AcceptancePt->Clone("weight_pt"));
   for (int i = 0; i < AcceptancePt->GetNbinsX(); i++) {
     if (pt2 < AcceptancePt->GetBinCenter(i + 1) &&
         pt3 > AcceptancePt->GetBinCenter(i + 1)) {
-      AcceptancePt->SetBinContent(i + 1, ptAccetance);
-      WeightPt->SetBinContent(i + 1, 1. / ptAccetance);
+      AcceptancePt->SetBinContent(i + 1, ptAcceptance);
+      WeightPt->SetBinContent(i + 1, 1. / ptAcceptance);
     } else {
       AcceptancePt->SetBinContent(i + 1, 1.);
       WeightPt->SetBinContent(i + 1, 1.);
@@ -300,9 +300,9 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   }
   // acceptance/weight histograms for pt
   Int_t binsEta = 1000;
-  Double_t eta2 = 0.1;
+  Double_t eta2 = -0.1;
   Double_t eta3 = 0.3;
-  Double_t etaAcceptance = 0.1;
+  Double_t etaAcceptance = 0.6;
   TH1D *AcceptanceEta =
       new TH1D("acceptance_eta", "acceptaance_eta", eta_bins, eta_min, eta_max);
   TH1D *WeightEta = dynamic_cast<TH1D *>(AcceptanceEta->Clone("weight_eta"));
@@ -327,8 +327,8 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   task1->SetAcceptanceHistogram(kETA, AcceptanceEta);
 
   AliAnalysisTaskAR *task2 = dynamic_cast<AliAnalysisTaskAR *>(
-      task->Clone(Form("%s%s_%.1f-%.1f", std::getenv("TASK_BASENAME"),
-                       "WithWeights", cen_min, cen_max)));
+      task1->Clone(Form("%s%s_%.1f-%.1f", std::getenv("TASK_BASENAME"),
+                        "WithWeights", cen_min, cen_max)));
 
   task2->SetWeightHistogram(kPT, WeightPt);
   task2->SetWeightHistogram(kPHI, WeightPhi);
